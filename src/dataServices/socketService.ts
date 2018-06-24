@@ -1,16 +1,5 @@
 var io = null;
 
-export class socketService{
-    start(http) {
-        io = require('socket.io')(http);
-        io.on('connection', function (socket) {
-            setupSocket(socket);
-        });
-    }
-    emit(a, b) {
-        io.emit(a, b);
-    }
-}
 function setupSocket(socket){
     var chatHandler = require('../handlers/chatHandler');
     var board = require('../board');
@@ -43,3 +32,14 @@ function setupSocket(socket){
         board.judgement(card); // TODO why does this count as a submission
     });
 }
+module.exports = {
+    start: function (http) {
+        io = require('socket.io')(http);
+        io.on('connection', function (socket) {
+            setupSocket(socket);
+        });
+    },
+    emit: function (a, b) {
+      io.emit(a, b);
+    }
+};
